@@ -59,8 +59,9 @@ else:
             sys.__excepthook__(exc_type, exc_value, exc_traceback)
             return
 
-        logger.critical("Uncaught exception", exc_info=(
-            exc_type, exc_value, exc_traceback))
+        logger.critical(f"Uncaught exception: {exc_type.__name__}: {exc_value}")
+        for line in "".join(traceback.format_tb(exc_traceback)).split("\n"):
+            logger.error(line.rstrip())
 
     sys.excepthook = handle_exception
 
